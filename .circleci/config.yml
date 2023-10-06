@@ -11,12 +11,25 @@ jobs:
         - main
     steps:
       - add_ssh_keys:
-        fingerprints:
-          - "90:f3:ca:b0:b7:b0:68:5d:3c:5c:86:db:1f:a0:3d:33"
+          fingerprints:
+            - "90:f3:ca:b0:b7:b0:68:5d:3c:5c:86:db:1f:a0:3d:33"
       - checkout
+      - restore_cache:
+          keys:
+            - dependencies_imooc
       - run:
           name: Install
           command: yarn install
+      - save_cache:
+          path:
+            - node_modules
+          key: dependencies_imooc
       - run:
-          name: build
+          name: Build
           command: yarn build
+      - run:
+          name: Prepare shell command
+          command: chmod +x scripts/deploy.sh
+      - run:
+          name: Run Deploy to Github Pages
+          command: ./scripts/deploy.sh
