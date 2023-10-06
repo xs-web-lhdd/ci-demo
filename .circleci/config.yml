@@ -1,0 +1,11 @@
+version: 2.1
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/configuration-reference/#jobs
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - run: echo "A first hello"
+      - run: npm -v
